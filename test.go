@@ -5,10 +5,12 @@ import(
 	"fmt"
 	"io"
 	"github.com/gonum/matrix/mat64"
+	"github.com/jackfrye/MachineLearning/ReadFile"
 )
 
 func main() {
-	test1()
+	read()
+	//test1()
 }
 
 func test1() {
@@ -32,4 +34,10 @@ func test1() {
 		fmt.Fprint(w)
 	}
 	//fmt.Printf("%+v\n", *x)
+}
+
+func read() {
+	workBooks := ReadFile.ReadFile()
+
+	fmt.Print(workBooks)
 }
