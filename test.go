@@ -4,12 +4,35 @@ import(
 	"bytes"
 	"fmt"
 	"io"
+	"path/filepath"
 	"github.com/gonum/matrix/mat64"
+	"github.com/tonnerre/golang-pretty"
 	"github.com/jackfrye/MachineLearning/ReadFile"
+	"github.com/jackfrye/MachineLearning/Data"
+
 )
 
 func main() {
-	read()
+
+	//Make absolute path filenames for your computer
+	filenames := []string{
+		makePath("res/ExportData.xlsx"),
+		makePath("res/S&PStockPrices.xlsx"),
+		makePath("res/US_GDP.xlsx")}
+
+		//Read from the files and populate structure
+	excelData := make([]map[string][]map[string]float64, 0, 10000)
+	for _, filename := range filenames {
+		excelData = append(excelData, read(filename))
+	}
+
+	//Flatten data to key by year
+	historicalMarketData := Data.JoinOn("Year", excelData)
+
+	finalData := Data.FilterIn(1977, 2015, historicalMarketData)
+
+	pretty.Print(finalData)
+
 	//test1()
 }
 
@@ -36,8 +59,17 @@ func test1() {
 	//fmt.Printf("%+v\n", *x)
 }
 
-func read() {
-	workBooks := ReadFile.ReadFile()
+func read(filename string)  map[string][]map[string]float64 {
+	workBooks := ReadFile.ReadFile(filename)
 
-	fmt.Print(workBooks)
+	return workBooks
+}
+
+func makePath(filename string) string {
+	a, err := filepath.Abs(filename)
+	if err == nil {
+		return a
+	} else {
+		panic(err)
+	}
 }
