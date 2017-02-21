@@ -1,2 +1,2 @@
 # MachineLearning
-GoLang implementation of MachineLearning Examples using gonum
+GoLang implementation of MachineLearning Using Market Data
