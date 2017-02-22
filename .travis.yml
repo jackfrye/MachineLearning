@@ -1,0 +1,6 @@
+language: go
+
+install:
+  - go get github.com/tealeg/xlsx
+  - go get github.com/gonum/matrix/mat64
+  - go get github.com/tonnerre/golang-pretty
