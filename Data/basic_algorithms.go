@@ -1,7 +1,6 @@
-package Data
+package data
 
 import (
-  "sort"
 )
 
 func FilterIn(early int, late int, marketData map[int]map[string]float64) map[int]map[string]float64 {

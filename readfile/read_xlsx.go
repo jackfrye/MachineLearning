@@ -1,4 +1,4 @@
-package ReadFile
+package readfile
 
 import (
     "fmt"
@@ -7,8 +7,8 @@ import (
 )
 
 //Read XLSX File turning each workbook into slice of maps
-func ReadFile() map[string][]map[string]float64 {
-    excelFileName :="C:/Users/jackf_000/Developer/Go/src/github.com/jackfrye/MachineLearning/res/US_GDP.xlsx"
+func ReadFile(filename string) map[string][]map[string]float64 {
+    excelFileName := filename
     xlFile, err := xlsx.OpenFile(excelFileName)
     if err != nil {
         panic(err)
