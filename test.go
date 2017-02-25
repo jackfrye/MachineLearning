@@ -4,6 +4,7 @@ import(
 	"bytes"
 	"fmt"
 	"io"
+	"sort"
 	"path/filepath"
 	"github.com/gonum/matrix/mat64"
 	"github.com/tonnerre/golang-pretty"
@@ -92,11 +93,19 @@ func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *
 
 		for _, associatedData := range data {
 			cols = len(associatedData) - 1
-			for dataKey, dataPoint := range associatedData {
-				if dataKey != key {
-					designMatrixData = append(designMatrixData, dataPoint)
+			keys := make([]string, 0, len(associatedData))
+			/*ensure you are going through the keys in the same order
+			every tme */
+    	for k := range associatedData {
+        keys = append(keys, k)
+    	}
+			sort.Strings(keys)
+
+			for _, sortedKey := range keys {
+				if sortedKey != key {
+					designMatrixData = append(designMatrixData, associatedData[key])
 				} else {
-					solutionData = append(solutionData, dataPoint)
+					solutionData = append(solutionData, associatedData[key])
 				}
 			}
 		}
