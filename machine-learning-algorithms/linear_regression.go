@@ -4,9 +4,8 @@ import (
 	"github.com/gonum/matrix/mat64"
 )
 
-//NormalEquation performs the normal equation on a design matrix and
-//solution
-func NormalEquation(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
+//LeastSquares performs derives the "best fit" from the least squares method
+func LeastSquares(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
 	var XT = X.T()
 
 	var XTX mat64.Dense

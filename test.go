@@ -34,7 +34,7 @@ func main() {
 
 	//Now we perform linear regression using the least squares method
 	// theta = ((X*X^T)^-1)(X^T*y)
-	theta := mlearn.NormalEquation(X, y)
+	theta := mlearn.LeastSquares(X, y)
 
 	pretty.Print("HYPOTHESIS", theta)
 
@@ -70,8 +70,6 @@ func makePath(filename string) string {
 }
 
 func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *mat64.Dense) {
-	pretty.Print(data)
-
 	rows := len(data)
 	cols := 0
 
