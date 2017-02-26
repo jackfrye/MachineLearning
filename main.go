@@ -11,6 +11,7 @@ import (
 	"github.com/tonnerre/golang-pretty"
 )
 
+//main function to the project.
 func main() {
 
 	//Make absolute path filenames for your computer
@@ -46,6 +47,7 @@ func main() {
 
 }
 
+//test1 tests the mat64 library. Playground for features.
 func test1() {
 	var A = mat64.NewDense(2, 2, []float64{0.1, 3.4, 8.5, 22.0})
 
@@ -56,6 +58,7 @@ func test1() {
 	x.SolveVec(A, b)
 }
 
+//read is a wrapper for reading files. Should be deprecated.
 func read(filename string) map[string][]map[string]float64 {
 	workBooks := io.ReadFile(filename)
 
@@ -71,6 +74,7 @@ func makePath(filename string) string {
 	return a
 }
 
+//buildSystemOn takes data and builds a design matrix and solution.
 func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *mat64.Dense) {
 	rows := len(data)
 	cols := 0

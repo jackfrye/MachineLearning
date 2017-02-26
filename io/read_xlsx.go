@@ -1,3 +1,4 @@
+//Package io performs basic input output to file/console for the project
 package io
 
 import (
@@ -7,7 +8,8 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-//Read XLSX File turning each workbook into slice of maps
+//ReadFile takes filenames and load them into slice of maps keyed by the
+// workbook name and valued by the resultant map of data
 func ReadFile(filename string) map[string][]map[string]float64 {
 	excelFileName := filename
 	xlFile, err := xlsx.OpenFile(excelFileName)
@@ -38,7 +40,7 @@ func ReadFile(filename string) map[string][]map[string]float64 {
 						dataPoint[titles[title]] = cellValue
 					}
 				}
-				title += 1
+				title++
 			}
 			if firstLine {
 				firstLine = false
@@ -49,8 +51,4 @@ func ReadFile(filename string) map[string][]map[string]float64 {
 		workBook[sheet.Name] = data
 	}
 	return workBook
-}
-
-func printSlice(s []string) {
-	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
