@@ -6,11 +6,12 @@ import (
 
 	"github.com/gonum/matrix/mat64"
 	"github.com/jackfrye/MachineLearning/data"
+	"github.com/jackfrye/MachineLearning/io"
 	"github.com/jackfrye/MachineLearning/machine-learning-algorithms"
-	"github.com/jackfrye/MachineLearning/readfile"
 	"github.com/tonnerre/golang-pretty"
 )
 
+//main function to the project.
 func main() {
 
 	//Make absolute path filenames for your computer
@@ -32,6 +33,8 @@ func main() {
 
 	X, y := buildSystemOn("Price", finalData)
 
+	mat64.PrintDense(X)
+
 	//Now we perform linear regression using the least squares method
 	// theta = ((X*X^T)^-1)(X^T*y)
 	theta := mlearn.LeastSquares(X, y)
@@ -44,6 +47,7 @@ func main() {
 
 }
 
+//test1 tests the mat64 library. Playground for features.
 func test1() {
 	var A = mat64.NewDense(2, 2, []float64{0.1, 3.4, 8.5, 22.0})
 
@@ -54,8 +58,9 @@ func test1() {
 	x.SolveVec(A, b)
 }
 
+//read is a wrapper for reading files. Should be deprecated.
 func read(filename string) map[string][]map[string]float64 {
-	workBooks := readfile.ReadFile(filename)
+	workBooks := io.ReadFile(filename)
 
 	return workBooks
 }
@@ -69,6 +74,7 @@ func makePath(filename string) string {
 	return a
 }
 
+//buildSystemOn takes data and builds a design matrix and solution.
 func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *mat64.Dense) {
 	rows := len(data)
 	cols := 0
@@ -79,7 +85,7 @@ func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *
 	solutionData := make([]float64, 0, 10000)
 
 	for _, associatedData := range data {
-		cols = len(associatedData) - 1
+		cols = len(associatedData)
 		keys := make([]string, 0, len(associatedData))
 		/*ensure you are going through the keys in the same order
 		every tme */
@@ -87,6 +93,8 @@ func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *
 			keys = append(keys, k)
 		}
 		sort.Strings(keys)
+
+		designMatrixData = append(designMatrixData, 1)
 
 		for _, sortedKey := range keys {
 			if sortedKey != key {

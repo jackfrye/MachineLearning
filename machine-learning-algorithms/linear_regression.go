@@ -1,10 +1,12 @@
+//Package mlearn contains functions created for the purposes of machine learning
 package mlearn
 
 import (
 	"github.com/gonum/matrix/mat64"
 )
 
-//LeastSquares performs derives the "best fit" from the least squares method
+//LeastSquares finds the least squares solution of some design matrix X
+//and some data points y.
 func LeastSquares(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
 	var XT = X.T()
 
@@ -24,7 +26,7 @@ func LeastSquares(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
 }
 
 //CalculateTotalDelta takes the design matrix, the solution vector and the
-//hypothesis and calculates the total delta
+//hypothesis and calculates the total delta.
 func CalculateTotalDelta(X *mat64.Dense, theta *mat64.Dense, y *mat64.Dense) float64 {
 	rows, cols := X.Dims()
 
