@@ -1,17 +1,9 @@
+//Package data works with data and formats it into a useful structure to be
+//transformed into matrices/vectors.
 package data
 
-/*
-	FilterIn
-		Filters map within two keys
-
-		Inputs:
-			early:	(int) - first key
-			late	(int) - last keys
-			marketData	(map[int]map[string]float64) - data to filter on
-
-		Outputs:
-			finalData	(map[int]map[string]float64) - filtered map
-*/
+//FilterIn takes a map and first/last keys and filters out anything outside
+//those keys.
 func FilterIn(early int, late int, marketData map[int]map[string]float64) map[int]map[string]float64 {
 	finalData := make(map[int]map[string]float64, 0)
 	keys := make([]int, 0)
@@ -25,19 +17,8 @@ func FilterIn(early int, late int, marketData map[int]map[string]float64) map[in
 	return finalData
 }
 
-/*
-	JoinOn
-		Joins data structures in a slice into one structure on specified
-		key. Equivalent to SQL LEFT JoinOn
-
-		Inputs:
-			on	(string) - key to join the maps on
-			data	([]map[string][]map[string]float64) - slice of maps to be
-					joined
-
-		Outputs:
-			flattenedData	(map[int]map[string]float64) - result of the join
-*/
+//JoinOn takes a key with which to join maps keyed by the same key and joins
+//them together. Similar to a SQL LEFT JOIN.
 func JoinOn(on string, data []map[string][]map[string]float64) map[int]map[string]float64 {
 	flattenedData := make(map[int]map[string]float64, 0)
 	for _, excelFile := range data {
