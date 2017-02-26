@@ -6,8 +6,8 @@ import (
 
 	"github.com/gonum/matrix/mat64"
 	"github.com/jackfrye/MachineLearning/data"
+	"github.com/jackfrye/MachineLearning/io"
 	"github.com/jackfrye/MachineLearning/machine-learning-algorithms"
-	"github.com/jackfrye/MachineLearning/readfile"
 	"github.com/tonnerre/golang-pretty"
 )
 
@@ -32,6 +32,8 @@ func main() {
 
 	X, y := buildSystemOn("Price", finalData)
 
+	mat64.PrintDense(X)
+
 	//Now we perform linear regression using the least squares method
 	// theta = ((X*X^T)^-1)(X^T*y)
 	theta := mlearn.LeastSquares(X, y)
@@ -55,7 +57,7 @@ func test1() {
 }
 
 func read(filename string) map[string][]map[string]float64 {
-	workBooks := readfile.ReadFile(filename)
+	workBooks := io.ReadFile(filename)
 
 	return workBooks
 }
@@ -79,7 +81,7 @@ func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *
 	solutionData := make([]float64, 0, 10000)
 
 	for _, associatedData := range data {
-		cols = len(associatedData) - 1
+		cols = len(associatedData)
 		keys := make([]string, 0, len(associatedData))
 		/*ensure you are going through the keys in the same order
 		every tme */
@@ -87,6 +89,8 @@ func buildSystemOn(key string, data map[int]map[string]float64) (*mat64.Dense, *
 			keys = append(keys, k)
 		}
 		sort.Strings(keys)
+
+		designMatrixData = append(designMatrixData, 1)
 
 		for _, sortedKey := range keys {
 			if sortedKey != key {
