@@ -32,7 +32,7 @@ func main() {
 
 	X, y := buildSystemOn("Price", finalData)
 
-	//Now we calculate the solution using the normal equation
+	//Now we perform linear regression using the least squares method
 	// theta = ((X*X^T)^-1)(X^T*y)
 	theta := mlearn.NormalEquation(X, y)
 
