@@ -85,4 +85,22 @@ y = [  90.25;
  
  theta = zeros(thetaRows, 1);
  
- theta, CostHistory = gradientDescent(X, theta, y, .01, 800);
+ CostHistory; theta = gradientDescent(X, theta, y, .01, 800);
+ 
+ X = [1, 2, 3; 2, 5, 9; 3, 5, 10];
+ y = [6; 16; 18];
+ 
+ sizeX = size(X);
+ thetaRows = sizeX(2);
+ 
+ theta2 = zeros(thetaRows, 1);
+ 
+ CostHistory2; theta2 = gradientDescent(X, theta2, y, .01, 6400);
+ 
+ fprintf('THETA: \n');
+ disp(theta);
+ 
+ fprintf('\n\n');
+ 
+ fprintf('THETA2: \n');
+ disp(theta2);
