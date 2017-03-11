@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"path/filepath"
 	"sort"
 
@@ -31,19 +32,30 @@ func main() {
 
 	finalData := data.FilterIn(1977, 2015, historicalMarketData)
 
+	// and then print with and without zero value elements.
 	X, y := buildSystemOn("Price", finalData)
 
-	mat64.PrintDense(X)
+	XF := mat64.Formatted(X, mat64.Prefix("    "), mat64.Squeeze())
+	fmt.Printf("\n\n%v", XF)
+
+	yF := mat64.Formatted(y, mat64.Prefix("    "), mat64.Squeeze())
+	fmt.Printf("\n\n%v", yF)
 
 	//Now we perform linear regression using the least squares method
 	// theta = ((X*X^T)^-1)(X^T*y)
 	theta := mlearn.LeastSquares(X, y)
+	delta := mlearn.CalculateTotalDelta(X, theta, y)
 
-	pretty.Print("HYPOTHESIS", theta)
+	fTheta := mat64.Formatted(theta, mat64.Prefix("    "), mat64.Squeeze())
+	fmt.Printf("\n\n%v", fTheta)
+	pretty.Print("\n\nDELTA", delta)
 
-	delta := mlearn.CalculateTotalDelta(X, &theta, y)
+	theta2 := mlearn.GradientDescent(X, y, 800, .001)
+	delta2 := mlearn.CalculateTotalDelta(X, theta2, y)
 
-	pretty.Print("DELTA", delta)
+	fTheta2 := mat64.Formatted(theta2, mat64.Prefix("    "), mat64.Squeeze())
+	fmt.Printf("\n\n%v\n\n", fTheta2)
+	pretty.Print("\n\nDELTA2", delta2)
 
 }
 

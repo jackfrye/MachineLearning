@@ -7,7 +7,7 @@ import (
 
 //LeastSquares finds the least squares solution of some design matrix X
 //and some data points y.
-func LeastSquares(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
+func LeastSquares(X *mat64.Dense, y *mat64.Dense) *mat64.Dense {
 	var XT = X.T()
 
 	var XTX mat64.Dense
@@ -21,6 +21,44 @@ func LeastSquares(X *mat64.Dense, y *mat64.Dense) mat64.Dense {
 
 	var theta mat64.Dense
 	theta.Mul(&XTXInverse, &XTransposeY)
+
+	return &theta
+}
+
+//GradientDescent will descend toward the best fit for the system X, producing
+//the output theta
+func GradientDescent(X *mat64.Dense, y *mat64.Dense, numIter int, alpha float64) *mat64.Dense {
+	r, c := X.Dims()
+
+	thetaPrep := make([]float64, c, c)
+	for i := 0; i < c; i++ {
+		thetaPrep[i] = 0.0
+	}
+
+	theta := mat64.NewDense(c, 1, thetaPrep)
+
+	tempTheta := mat64.NewDense(c, 1, thetaPrep)
+
+	for i := 0; i < numIter; i++ {
+		for j := 0; j < c; j++ {
+			sigma := 0.0
+			for k := 0; k < r; k++ {
+				var XRowTheta mat64.Dense
+				XRowTheta.Mul(mat64.NewDense(1, c, X.RawRowView(k)), theta)
+
+				XRowThetaLessY := XRowTheta.At(0, 0) - y.At(k, 0)
+
+				total := XRowThetaLessY * X.At(k, j)
+
+				sigma += total
+
+			}
+			newTheta := theta.At(j, 0) - (alpha)*sigma
+			tempTheta.Set(j, 0, newTheta)
+
+		}
+		theta = tempTheta
+	}
 
 	return theta
 }
